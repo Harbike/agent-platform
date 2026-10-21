@@ -1,0 +1,11 @@
+
+# Environment variables and secrets
+.env
+.env.*
+
+# Allow a safe example template
+!.env.example
+
+# Dependencies and compiled output
+node_modules/
+dist/
