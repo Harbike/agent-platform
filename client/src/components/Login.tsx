@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Eye, EyeOff, AlertCircle } from "lucide-react";
-import { AxiosError } from "axios";
+// import { AxiosError } from "axios";
 import { api } from "../api/client";
 import type { User, AuthResponse } from "../types/auth";
 import Logo from "../assets/logo.png";
@@ -16,8 +16,45 @@ export default function Login({ onLoginSuccess }: LoginProps) {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
+const [isSupportOpen, setIsSupportOpen] = useState(false);
+const [resetEmailSent, setResetEmailSent] = useState(false);
 
-  const handleLogin = async (e: React.FormEvent) => {
+//   to allow sign in where server-side is done
+//   const handleLogin = async (e: React.FormEvent) => {
+//     e.preventDefault();
+//     setError(null);
+//     setIsLoading(true);
+
+//     const sanitizedEmail = email.trim().toLowerCase();
+
+//     try {
+//       const response = await api.post<AuthResponse>("/auth/login", {
+//         email: sanitizedEmail,
+//         password,
+//         remember_me: rememberMe,
+//       });
+
+//       const { accessToken, user } = response.data;
+
+//       if (accessToken) {
+//         localStorage.setItem("amp_access_token", accessToken);
+//       }
+
+//       onLoginSuccess(user);
+//     } catch (err) {
+//       const axiosError = err as AxiosError<{ message?: string }>;
+//       setError(
+//         axiosError.response?.data?.message ||
+//           "Invalid email or password. Please try again.",
+//       );
+//     } finally {
+//       setIsLoading(false);
+//     }
+//   };
+
+// sign in using mock data
+const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setIsLoading(true);
@@ -25,28 +62,32 @@ export default function Login({ onLoginSuccess }: LoginProps) {
     const sanitizedEmail = email.trim().toLowerCase();
 
     try {
-      const response = await api.post<AuthResponse>("/auth/login", {
-        email: sanitizedEmail,
-        password,
-        remember_me: rememberMe,
-      });
+  const response = await api.post<AuthResponse>("/auth/login", {
+    email: sanitizedEmail,
+    password,
+    remember_me: rememberMe,
+  });
 
-      const { accessToken, user } = response.data;
-
-      if (accessToken) {
-        localStorage.setItem("amp_access_token", accessToken);
-      }
-
-      onLoginSuccess(user);
-    } catch (err) {
-      const axiosError = err as AxiosError<{ message?: string }>;
-      setError(
-        axiosError.response?.data?.message ||
-          "Invalid email or password. Please try again.",
-      );
-    } finally {
-      setIsLoading(false);
-    }
+  const { accessToken, user } = response.data;
+  if (accessToken) localStorage.setItem("amp_access_token", accessToken);
+  onLoginSuccess(user);
+} catch {
+  // MOCK FALLBACK: Allows login during frontend UI development
+  console.warn("Backend unavailable, logging in with mock user...");
+  onLoginSuccess({
+    id: "usr_01",
+    first_name: "Abike",
+    last_name: "Yinusa",
+    email: sanitizedEmail || "abike.yinusa@amp.org",
+    role: "Superadmin",
+    scope: {
+        scope_type: "global",
+  scope_area_id: "Lagos",
+  scope_position_id: "SA"
+    },
+    is_active: true,
+  });
+}
   };
 
   return (
@@ -165,15 +206,16 @@ export default function Login({ onLoginSuccess }: LoginProps) {
                 </span>
               </label>
 
-              <a
-                href="#forgot-password"
-                onClick={(e) => {
-                  e.preventDefault(); /* Handle forgot password modal or navigation */
-                }}
-                className="text-xs text-[#8d002f] hover:underline font-medium"
-              >
-                Forgot password?
-              </a>
+              <button
+  type="button"
+  onClick={() => {
+    setResetEmailSent(false);
+    setIsForgotPasswordOpen(true);
+  }}
+  className="text-xs text-[#8d002f] hover:underline font-medium focus:outline-none"
+>
+  Forgot password?
+</button>
             </div>
             <button
               type="submit"
@@ -207,21 +249,106 @@ export default function Login({ onLoginSuccess }: LoginProps) {
 
           <div className="mt-6 text-center text-xs text-slate-500">
             Need help signing in?{" "}
-            <a
-              href="#support"
-              className="text-[#8d002f] hover:underline font-medium"
-            >
-              Contact your administrator.
-            </a>
+            <div className="mt-6 text-center text-xs text-slate-500">
+  Need help signing in?{" "}
+  <button
+    type="button"
+    onClick={() => setIsSupportOpen(true)}
+    className="text-[#8d002f] hover:underline font-medium focus:outline-none"
+  >
+    Contact your administrator.
+  </button>
+</div>
           </div>
         </div>
-
-        {/* <div className="mt-12 pt-4 border-t border-slate-100 text-center">
-          <p className="text-[11px] text-slate-400 uppercase tracking-widest font-medium">
-            Prototype - Fictional data only
-          </p>
-        </div> */}
       </div>
+
+      {/* Forgot Password Modal */}
+{isForgotPasswordOpen && (
+  <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50">
+    <div className="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-100">
+      <h3 className="text-lg font-bold text-slate-900 mb-1">Reset Password</h3>
+
+      {resetEmailSent ? (
+        <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs rounded-lg mt-9 mb-4">
+          Reset link sent! Please check your inbox.
+        </div>
+      ) : (
+        
+        <div className="mb-4">
+          <p className="text-xs text-slate-500 mb-4">
+        Enter your registered email address and we'll send you instructions to reset your password.
+      </p>
+      <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mt-4 mb-1.5">
+            Email
+          </label>
+          <input
+            type="email"
+            defaultValue={email}
+            placeholder="you@example.com"
+            className="w-full px-3.5 py-2 text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#660022]"
+          />
+        </div>
+      )}
+
+      <div className="flex items-center justify-end space-x-2">
+        <button
+          type="button"
+          onClick={() => setIsForgotPasswordOpen(false)}
+          className="px-3.5 py-2 text-xs font-medium text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
+        >
+          Close
+        </button>
+        {!resetEmailSent && (
+          <button
+            type="button"
+            onClick={() => setResetEmailSent(true)}
+            className="px-3.5 py-2 text-xs font-medium bg-[#8d002f] hover:bg-[#660022] text-white rounded-lg transition-colors"
+          >
+            Send Link
+          </button>
+        )}
+      </div>
+    </div>
+  </div>
+)}
+
+{/* Contact Administrator / IT Support Modal */}
+{isSupportOpen && (
+  <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50">
+    <div className="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 text-left">
+      <h3 className="text-lg font-bold text-slate-900 mb-1">System Administrator Support</h3>
+      <p className="text-xs text-slate-500 mb-4">
+        If you are locked out or need account credentials reset, reach out to the IT helpdesk:
+      </p>
+
+      <div className="space-y-2.5 text-xs bg-slate-50 p-3.5 rounded-xl border border-slate-200/80 mb-5">
+        <div className="flex justify-between">
+          <span className="text-slate-400">IT Helpdesk Email:</span>
+          <span className="font-medium text-slate-800">support@amp.org</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-slate-400">Support Hotline:</span>
+          <span className="font-mono text-slate-800">+234 800-AMP-HELP</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-slate-400">Operational Hours:</span>
+          <span className="text-slate-800 font-medium">Mon - Fri, 8AM - 5PM</span>
+        </div>
+      </div>
+
+      <div className="flex justify-end">
+        <button
+          type="button"
+          onClick={() => setIsSupportOpen(false)}
+          className="px-4 py-2 text-xs font-medium bg-[#660022] hover:bg-[#660022]/90 text-white rounded-lg transition-colors"
+        >
+          Got it
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 }

@@ -9,7 +9,7 @@ export interface User {
   email: string;
   first_name?: string;
   last_name?: string;
-  role: 'Area Manager' | 'Regional Manager' | 'DSM' | 'Field Agent' | 'Admin';
+  role: 'Area Manager' | 'Regional Manager' | 'DSM' | 'Field Agent' | 'Admin' | 'Superadmin';
   scope: UserScope;
   is_active: boolean;
 }
