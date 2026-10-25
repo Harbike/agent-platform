@@ -1,0 +1,98 @@
+import type { HierarchyNode, AreaSummaryMetrics } from '../types/hierarchy';
+
+export const mockHierarchyDataByArea: Record<string, { metrics: AreaSummaryMetrics; root: HierarchyNode }> = {
+  Lagos: {
+    metrics: {
+      totalAm: 1,
+      totalRms: 2,
+      totalDsms: 12,
+      activeAgents: 35,
+      vacantPositions: 3,
+    },
+    root: {
+      id: 'node-am-lagos',
+      positionCode: 'AM-LAG-01',
+      title: 'Area Manager',
+      role: 'AM',
+      status: 'Active',
+      area: 'Lagos',
+      occupantName: 'Amina Okafor',
+      occupantAvatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&auto=format&fit=crop&q=80',
+      children: [
+        {
+          id: 'node-rm-lag-1',
+          positionCode: 'RM-LAG-EAST',
+          title: 'Regional Manager - East Region',
+          role: 'RM',
+          status: 'Active',
+          area: 'Lagos',
+          occupantName: 'Ibrahim Musa',
+          occupantAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+          children: [
+            {
+              id: 'node-dsm-lag-1',
+              positionCode: 'DSM-LAG-E1',
+              title: 'District Sales Manager',
+              role: 'DSM',
+              status: 'Active',
+              area: 'Lagos',
+              occupantName: 'Fatima Bello',
+              occupantAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+              directAgentsCount: 12,
+              agentsList: [
+                { id: 'ag-1', name: 'Chinedu Okoro', code: 'AG-LAG-014', status: 'Active' },
+                { id: 'ag-2', name: 'Mariam Yusuf', code: 'AG-LAG-021', status: 'Active' },
+                { id: 'ag-3', name: 'David Nnandi', code: 'AG-LAG-032', status: 'Active' },
+              ],
+            },
+            {
+              id: 'node-dsm-lag-2',
+              positionCode: 'DSM-LAG-E2',
+              title: 'District Sales Manager',
+              role: 'DSM',
+              status: 'Vacant',
+              area: 'Lagos',
+              directAgentsCount: 6,
+            },
+          ],
+        },
+        {
+          id: 'node-rm-lag-2',
+          positionCode: 'RM-LAG-WEST',
+          title: 'Regional Manager - West Region',
+          role: 'RM',
+          status: 'Active',
+          area: 'Lagos',
+          occupantName: 'Grace Nwosu',
+          occupantAvatar: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=100&auto=format&fit=crop&q=80',
+          children: [
+            {
+              id: 'node-dsm-lag-3',
+              positionCode: 'DSM-LAG-W1',
+              title: 'District Sales Manager',
+              role: 'DSM',
+              status: 'Active',
+              area: 'Lagos',
+              occupantName: 'Tunde Adeyemi',
+              directAgentsCount: 8,
+              agentsList: [
+                { id: 'ag-4', name: 'Oluwaseun Ojo', code: 'AG-LAG-017', status: 'Active' },
+                { id: 'ag-5', name: 'Seyi Afolabi', code: 'AG-LAG-023', status: 'Active' },
+              ],
+            },
+            {
+              id: 'node-dsm-lag-4',
+              positionCode: 'DSM-LAG-W2',
+              title: 'District Sales Manager',
+              role: 'DSM',
+              status: 'Active',
+              area: 'Lagos',
+              occupantName: 'Ngozi Eze',
+              directAgentsCount: 9,
+            },
+          ],
+        },
+      ],
+    },
+  },
+};

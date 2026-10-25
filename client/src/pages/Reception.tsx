@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import Managers from './Managers';
+import AreaHierarchy from './AreaHierarchy';
 import Sidebar from '../components/layout/Sidebar';
 import Header from '../components/layout/Header';
 import SummaryCards from '../components/reception/SummaryCards';
@@ -56,6 +58,15 @@ const handleTabChange = (tab: string) => {
   setActiveTab(tab);
 };
 
+// Format dynamic page title for non-reception views
+  const formatTabTitle = (tab: string) => {
+    if (tab === 'managers-am') return 'Area Manager (AM)';
+    if (tab === 'managers-rm') return 'Regional Manager (RM)';
+    if (tab === 'managers-dsm') return 'District Manager (DSM)';
+    if (tab === 'hierarchy') return 'Area Hierarchy';
+    return tab.replace('-', ' ');
+  };
+
   return (
     
     <div className="h-screen bg-slate-100 flex font-sans overflow-hidden">
@@ -74,7 +85,7 @@ const handleTabChange = (tab: string) => {
           onGlobalSearch={handleGlobalSearch}
           onViewAllNotifications={() => {
             // Optional: Switch to audit log or notifications view if desired
-            setActiveTab('audit-log');
+            setActiveTab('audit-log'); //note audit or audit-log
           }}
         />
 
@@ -97,21 +108,34 @@ const handleTabChange = (tab: string) => {
                 >
                   Home
                 </button>
+                {activeTab.startsWith('managers') ? (
+                      <>
+                        <span>/</span>
+                        
+                        <span className="text-slate-700 font-semibold">{formatTabTitle(activeTab)}</span>
+                      </>
+                    ) : (
+                      <>
                 <span>/</span>
-                <span className="text-slate-600 capitalize">{activeTab.replace('-', ' ')}</span>
+                <span className="text-slate-600 capitalize">{formatTabTitle(activeTab)}</span>
       </>
     )}
+    </>
+                )}
   </div>
-              <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
-                {activeTab === 'reception' ? 'Reception' : activeTab.replace('-', ' ')}
+              <h1 className="text-2xl font-bold text-slate-900 tracking-tight capitalize">
+                {activeTab === 'reception' ? 'Reception' : formatTabTitle(activeTab)}
               </h1>
               <p className="text-xs text-slate-500 mt-1">
                {activeTab === 'reception'
       ? 'Search, locate, and inspect management nodes and staff across the organisation.'
-      : `Managing system parameters for ${activeTab.replace('-', ' ')}.`}
+      : activeTab.startsWith('managers')
+                  ? 'Manage leadership rosters, position provisioning, and jurisdiction reassignments.'
+      : `Managing system parameters for ${formatTabTitle(activeTab)}`}
   </p>
 </div>
 
+{/* render Reception here - Also serves as the Viewport Router */}
             {activeTab === 'reception' ? (
               <>
 
@@ -140,6 +164,12 @@ const handleTabChange = (tab: string) => {
               />
             </div>
 </>
+// render AreaHierarchy here
+            ) : activeTab === 'hierarchy' ?(
+              <AreaHierarchy />
+
+              // render Managers here
+            ) : activeTab.startsWith('managers') ? ( <Managers activeTab={activeTab} currentUser={currentUser} />
             ) : (
               <div className="bg-white p-8 rounded-xl border border-slate-200 text-center text-slate-500 text-xs">
                 Module view for <span className="font-semibold text-slate-800">{activeTab}</span> is currently active.

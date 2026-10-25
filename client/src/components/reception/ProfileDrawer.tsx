@@ -21,7 +21,7 @@ export default function ProfileDrawer({ record, onClose, onViewAuditLog }: Profi
       
       <div>
         {/* Top Header */}
-        <div className="p-4 border-b border-slate-100 flex items-center justify-between sticky top-0 bg-white z-10">
+        <div className="p-4 border-b border-[#660022]/20 flex items-center justify-between sticky top-0 bg-white z-10">
           <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
             {getDrawerTitle()}
           </span>

@@ -74,7 +74,7 @@ export default function DirectoryTable({
           <select
             value={selectedArea}
             onChange={(e) => setSelectedArea(e.target.value)}
-            className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#660022]/40"
+            className="bg-slate-50 border border-[#660022]/30 rounded-lg px-3 py-2 text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#660022]/60"
           >
             <option value="All">Area: All</option>
             <option value="Lagos">Lagos</option>
@@ -85,7 +85,7 @@ export default function DirectoryTable({
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#660022]/40"
+            className="bg-slate-50 border border-[#660022]/30 rounded-lg px-3 py-2 text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#660022]/60"
           >
             <option value="All">Status: All</option>
             <option value="Active">Active</option>
@@ -110,17 +110,17 @@ export default function DirectoryTable({
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-slate-50/80 border-b border-slate-100 text-[11px] uppercase tracking-wider font-semibold text-slate-500">
+            <tr className="bg-[#660022]/3 border-b border-[#660022]/20 text-[11px] uppercase tracking-wider font-semibold text-slate-500">
               <th className="py-3.5 px-5">Name</th>
               <th className="py-3.5 px-4">Type</th>
-              <th className="py-3.5 px-4">Agent code or position title</th>
+              <th className="py-3.5 px-4">Agent code</th>
               <th className="py-3.5 px-4">Area</th>
               <th className="py-3.5 px-4">Reporting Line</th>
               <th className="py-3.5 px-4">Status</th>
             </tr>
           </thead>
 
-          <tbody className="divide-y divide-slate-100 text-xs text-slate-700">
+          <tbody className="divide-y divide-[#660022]/10 text-xs text-slate-700">
             {sortedAndFilteredRecords.map((record) => {
               const isSelected = selectedRecordId === record.id;
               return (
@@ -128,7 +128,7 @@ export default function DirectoryTable({
                   key={record.id}
                   onClick={() => onSelectRecord(record)}
                   className={`cursor-pointer transition-colors ${
-                    isSelected ? "bg-blue-50/60" : "hover:bg-slate-50/80"
+                    isSelected ? "bg-[#660022]/15" : "hover:bg-[#660022]/5"
                   }`}
                 >
                   <td className="py-3.5 px-5 font-medium text-slate-900 flex items-center space-x-3">
@@ -139,7 +139,7 @@ export default function DirectoryTable({
                         className="w-8 h-8 rounded-full object-cover"
                       />
                     ) : (
-                      <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-500">
+                      <div className="w-8 h-8 rounded-full bg-[#660022]/10 border flex items-center justify-center text-[#660022]">
                         <User className="w-4 h-4" />
                       </div>
                     )}

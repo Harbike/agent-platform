@@ -1,0 +1,102 @@
+export interface ManagerRecord {
+  id: string;
+  positionCode: string;
+  name: string;
+  email: string;
+  level: 'AM' | 'RM' | 'DSM';
+  area: string;
+  region?: string;
+  district?: string;
+  status: 'Active' | 'Vacant' | 'Pending Transfer' | 'Suspended';
+  assignedDate?: string;
+  reportsTo?: string;
+  directReportsCount: number;
+  avatarUrl?: string;
+}
+
+export const mockManagersData: ManagerRecord[] = [
+  {
+    id: 'm-1',
+    positionCode: 'AM-LAG-01',
+    name: 'Babatunde Adeleke',
+    email: 'b.adeleke@amp.harbike.com',
+    level: 'AM',
+    area: 'Lagos Area',
+    status: 'Active',
+    assignedDate: '2024-01-15',
+    reportsTo: 'National Ops Head',
+    directReportsCount: 4,
+    avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150'
+  },
+  {
+    id: 'm-2',
+    positionCode: 'RM-LAG-ISL',
+    name: 'Chinedu Okonkwo',
+    email: 'c.okonkwo@amp.harbike.com',
+    level: 'RM',
+    area: 'Lagos Area',
+    region: 'Lagos Island Region',
+    status: 'Active',
+    assignedDate: '2024-03-01',
+    reportsTo: 'Babatunde Adeleke (AM)',
+    directReportsCount: 6,
+    avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150'
+  },
+  {
+    id: 'm-3',
+    positionCode: 'RM-LAG-MNL',
+    name: 'Amina Yusuf',
+    email: 'a.yusuf@amp.harbike.com',
+    level: 'RM',
+    area: 'Lagos Area',
+    region: 'Lagos Mainland Region',
+    status: 'Active',
+    assignedDate: '2024-02-10',
+    reportsTo: 'Babatunde Adeleke (AM)',
+    directReportsCount: 5,
+    avatarUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150'
+  },
+  {
+    id: 'm-4',
+    positionCode: 'DSM-VI-01',
+    name: 'Vacant Slot',
+    email: 'unassigned@amp.harbike.com',
+    level: 'DSM',
+    area: 'Lagos Area',
+    region: 'Lagos Island Region',
+    district: 'Victoria Island Central',
+    status: 'Vacant',
+    reportsTo: 'Chinedu Okonkwo (RM)',
+    directReportsCount: 0
+  },
+  {
+    id: 'm-5',
+    positionCode: 'DSM-IKJ-02',
+    name: 'Emeka Nwosu',
+    email: 'e.nwosu@amp.harbike.com',
+    level: 'DSM',
+    area: 'Lagos Area',
+    region: 'Lagos Mainland Region',
+    district: 'Ikeja Commercial District',
+    status: 'Active',
+    assignedDate: '2024-05-12',
+    reportsTo: 'Amina Yusuf (RM)',
+    directReportsCount: 14,
+    avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150'
+  },
+  {
+    id: 'm-6',
+    positionCode: 'DSM-LEK-03',
+    name: 'Oluwaseun Ajayi',
+    email: 'o.ajayi@amp.harbike.com',
+    level: 'DSM',
+    area: 'Lagos Area',
+    region: 'Lagos Island Region',
+    district: 'Lekki Phase 1 Node',
+    status: 'Active',
+    assignedDate: '2024-06-20',
+    reportsTo: 'Chinedu Okonkwo (RM)',
+    directReportsCount: 12,
+    avatarUrl: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=150'
+  }
+];
